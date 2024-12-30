@@ -1,0 +1,453 @@
+/*@!Encoding:1252*/
+includes
+{
+  
+}
+/*
+variables
+{
+  message BCMMessage b;
+}
+*/
+/*
+on sysvar Indicator::Sys_BCM
+ {
+    b.BCM_Signal = @Indicator::Sys_BCM;
+     output(b);
+}
+*/
+         // PROGRAMS WITH ON START AND ON KEY
+/*on start
+{
+  b.BCM_Signal=0x1;
+  output(b);
+}
+*/
+
+/*
+on start 
+{
+  b.BCM_Signal=0x3;
+  output(b);
+}
+*/
+/*
+on key 'k'
+{
+  b.BCM_Signal=0x1;
+  output(b);
+}
+*/
+/*
+on key 's'
+{
+  b.BCM_Signal=0x2;
+  output(b);
+}
+*/
+/*
+on key 'x'
+{
+  b.BCM_Signal=0x2;
+  output(b);
+}
+on key'y'
+{
+  b.BCM_Signal=0x0;
+  output(b);
+}
+*/
+/*
+on key *
+ {
+   b.BCM_Signal=0x1;
+  output(b);
+ } 
+*/
+/*
+on key *
+{
+  b.BCM_Signal=0x2;
+  output(b);
+}
+on key 'o'
+{
+  b.BCM_Signal=0x0;
+  output(b);
+}*/
+              //PROGRAMS WITH SETTIMER AND ON TIME
+
+/*variables
+{
+  message BCMMessage b;
+  mstimer t1;
+}
+on start
+{
+  settimer(t1,3000);
+}
+on timer t1{
+  b.BCM_Signal=0x1;
+  output(b);
+}*/
+/*
+variables
+{
+  message BCMMessage b;
+  msTimer t1;
+}
+on key 'x'
+{
+  settimer(t1,5000);
+}
+on timer t1
+{
+  b.BCM_Signal=0x2;
+  output(b);
+}
+*/
+/*
+variables{
+  message BCMMessage b;
+  timer t1;
+}
+on key 'x'
+{
+  settimer(t1,5);
+}
+on timer t1
+{
+  b.BCM_Signal=0x2;
+  output(b);
+}*/
+/*
+variables
+{
+  message BCMMessage b;
+  timer t1,t2;
+}
+on key 'x'
+{
+  settimer(t1,3);
+}
+on timer t1
+{
+b.BCM_Signal=0x3;
+  output(b);
+}
+on key 'o'
+{
+  settimer(t2,5);
+}
+on timer t2
+{
+b.BCM_Signal=0x0;
+  output(b);
+}
+*/
+/*                                        MESSAGE PERIODICITY
+variables 
+{
+  message BCMMessage b;
+  msTimer t1;
+}
+on key 'z'
+{
+  settimer(t1,300);
+}
+on timer t1
+{
+  b.BCM_Signal=0x3;
+  output(b);
+  settimer(t1,500);
+}
+
+*/
+/*
+variables
+{
+  message BCMMessage b;
+  msTimer t1,t2;
+}
+on key 'x'
+{
+  setTimer(t1,500);
+}
+on timer t1
+{
+  b.BCM_Signal =0x3;
+  output(b);
+  settimer(t1,500);
+}
+on key'y'
+{
+  settimer(t2,2000);
+}
+on timer t2
+{
+  canceltimer(t1);
+  b.BCM_Signal=0x0;
+  output(b);
+}
+*/
+ /*
+variables 
+{
+  message BCMMessage b;
+  msTimer t1,t2;
+}
+on key 'b'
+{
+  settimer(t1,500);
+}
+on timer t1
+{
+  b.BCM_Signal=0x1;
+  output(b);
+  settimer(t2,500);
+}
+on timer t2
+{
+ b.BCM_Signal=0x0;
+  output(b);
+  settimer(t1,500);
+}
+*/
+ 
+//For blink led by using single timer
+
+//(Q.16)
+/*
+variables 
+{
+  message BCMMessage b;
+  msTimer t1;
+}
+on key 'b'
+{
+  settimer(t1,500);
+}
+on timer t1
+{
+ if(b.BCM_Signal==1)
+   {
+     b.BCM_Signal=0x0;
+   }
+  else
+  {
+    b.BCM_Signal=0x1;
+  }
+  output(b);
+  settimer(t1,500);
+}
+on key 'c'
+{
+  cancelTimer(t1);
+  b.BCM_Signal=0x0;
+  output(b);
+}
+*/
+
+/*
+variables{
+  message BCMMessage b;
+  msTimer t1;
+}
+on key 'b'
+{
+  setTimer(t1,500);
+}
+on timer t1
+{  
+  b.BCM_Signal=!(b.BCM_Signal);
+  output(b);
+   settimer(t1,500);
+}
+on key 'c'
+{
+  cancelTimer(t1);
+  b.BCM_Signal=0x0;
+  output(b);
+}
+*/
+
+/*
+ variables
+{
+message BCMMessage b;
+  msTimer t1;
+  int count=1;
+}
+on key 'b'
+{
+  setTimer(t1,500);
+}
+on timer t1
+{
+  if(count<=10)
+  {
+    b.BCM_Signal=!(b.BCM_Signal);
+    output(b);
+    count++;
+    setTimer (t1,500);
+  }
+}
+*/
+
+
+
+    // CAPGEMINI INTERVIEW QUESTION
+/*
+variables{
+  message BCMMessage b;
+  msTimer t1;
+  int count=1;
+}
+on start 
+{
+  setTimer(t1,1);
+}
+on timer t1
+{
+  if(count<=300000)
+  {  
+    output(b);
+    count++;
+    setTimer(t1,1);
+  }
+}
+*/
+
+//aptive interview question
+/*
+variables
+{
+  message BCMMessage b;
+  message  GWMMessage g;
+  msTimer t1;
+  int count=1;
+}
+on key *
+{
+  setTimer(t1,50);
+}
+on timer t1{
+  if(count<=30)
+  {
+    output(b);
+    write("BCMMesage");
+    count++;
+    setTimer(t1,50);
+  }
+  else if(count<=80)
+  {
+     output(g);
+    write("GWMMessage");
+    count++;
+    setTimer(t1,100);
+  }
+    else
+  {
+    count=1;
+   setTimer(t1,50);
+  }
+}
+ */ 
+
+//     KPIT interview question
+
+/*
+variables
+{
+  message BCMMessage b;
+    timer t1,t2;
+}
+on key 'k'
+  {
+    b.BCM_Signal=0x1;
+    output(b);
+  }
+  on sysvar Indicator::Sys_BCM
+  {
+    if(@Indicator::Sys_BCM==1)
+    {
+      setTimer(t1,5);
+    }
+    else
+    {
+      cancelTimer(t1);
+      cancelTimer(t2);
+      b.BCM_Signal=0x1;
+      output(b);
+    }
+  }
+  on timer t1
+  {
+    b.BCM_Signal=0x0;
+    output(b);
+    setTimer(t2,10);
+  }
+  on timer t2
+  {
+    b.BCM_Signal=0x1;
+    output(b);
+    setTimer(t1,5);
+  }
+
+*/
+   
+
+ // jack interview question
+// 21)
+
+
+
+variables 
+{ 
+  message BCMMessage b;
+  timer t1;
+  int count=0;
+}
+on key 'j'
+{
+  setTimer (t1,4);
+}
+on timer t1
+{
+  if(count<=90)
+  {
+    output(b);
+    count=count+10;
+    write("%d",count);
+    setTimer(t1,4);
+  }
+  else
+  {
+    cancelTimer(t1);
+    count=count-100;
+    write("%d",count);
+    output(b);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
